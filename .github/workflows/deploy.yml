@@ -3,7 +3,7 @@ name: Deploy K8s-IA Website to VPS
 on:
   push:
     branches:
-      - main # ou master, selon votre branche principale
+      - main
 
 jobs:
   build-and-deploy:
@@ -32,7 +32,7 @@ jobs:
           context: .
           push: true
           # Le nom de l'image est adapté à votre projet.
-          tags: ghcr.io/${{ github.repository_owner }}/k8s-ia-website:latest
+          tags: ghcr.io/hugolelievre/k8s-ia-website:latest
 
       # 5. Déploiement sur le VPS via SSH
       - name: Deploy to VPS
@@ -47,7 +47,7 @@ jobs:
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             
             # Pull la nouvelle image
-            docker pull ghcr.io/${{ github.repository_owner }}/k8s-ia-website:latest
+            docker pull ghcr.io/hugolelievre/k8s-ia-website:latest
             
             # Arrêter et supprimer l'ancien conteneur s'il existe
             docker stop k8s-ia-container || true
@@ -56,9 +56,9 @@ jobs:
             # Lancer le nouveau conteneur
             docker run -d \
               --restart always \
-              -p 3000:3000 \
+              -p 3001:3000 \
               --name k8s-ia-container \
-              ghcr.io/${{ github.repository_owner }}/k8s-ia-website:latest
+              ghcr.io/hugolelievre/k8s-ia-website:latest
             
             # Nettoyer les anciennes images non utilisées pour libérer de l'espace
             docker image prune -f
