@@ -33,7 +33,6 @@ RUN adduser --system --uid 1001 nextjs
 
 # Copie les fichiers nécessaires depuis l'étape de build.
 # Le mode "standalone" a préparé un dossier optimisé pour nous.
-COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
 
