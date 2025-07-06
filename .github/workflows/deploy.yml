@@ -8,6 +8,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    # AJOUT : Donner les permissions nécessaires au GITHUB_TOKEN
+    permissions:
+      contents: read
+      packages: write # <-- Cette ligne est essentielle pour pousser l'image sur GHCR
+
     steps:
       # 1. Récupère le code de votre dépôt
       - name: Checkout code
