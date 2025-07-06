@@ -15,7 +15,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Variable d'environnement pour désactiver la télémétrie de Next.js.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
@@ -25,7 +25,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Crée un utilisateur et un groupe non-root pour des raisons de sécurité.
 RUN addgroup --system --gid 1001 nextjs
@@ -41,7 +41,7 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 
 # Lance le serveur Next.js.
 # Next.js en mode standalone utilise le fichier "server.js".
